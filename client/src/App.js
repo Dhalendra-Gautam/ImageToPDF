@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import FilePreview from './components/FilePreview';
 import Options from './components/Options';
 import './App.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const [files, setFiles] = useState([]);
@@ -20,7 +21,7 @@ function App() {
 
   // Fetch available options from API on mount
   useEffect(() => {
-    fetch('/api/options')
+    fetch(`${API_URL}/api/options`)
       .then(res => res.json())
       .then(data => setApiOptions(data))
       .catch(err => console.error('Failed to fetch options:', err));
@@ -146,7 +147,7 @@ function App() {
     formData.append('imageRotations', JSON.stringify(rotationsArray));
 
     try {
-      const response = await fetch('/api/convert', {
+      const response = await fetch(`${API_URL}/api/convert`, {
         method: 'POST',
         body: formData
       });
